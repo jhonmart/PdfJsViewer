@@ -1025,7 +1025,9 @@ function getDocument(src) {
           if (_util.isNodeJS) {
             return new _displayNode_stream.PDFNodeStream(params);
           }
-          return (0, _display_utils.isValidFetchUrl)(params.url) ? new _displayFetch_stream.PDFFetchStream(params) : new _displayNetwork.PDFNetworkStream(params);
+          return (0, _display_utils.isValidFetchUrl)(params.url)
+            ? new _displayFetch_stream.PDFFetchStream(params)
+            : new _displayNetwork.PDFNetworkStream(params);
         };
         networkStream = createPDFNetworkStream({
           url,
@@ -9124,9 +9126,6 @@ class MessageHandler {
     this.actionHandler = Object.create(null);
     this._onComObjOnMessage = event => {
       const data = event.data;
-      if (data.targetName !== this.sourceName) {
-        return;
-      }
       if (data.stream) {
         this.#processStreamMessage(data);
         return;
@@ -9367,7 +9366,9 @@ class MessageHandler {
         }
         break;
       case StreamKind.PULL_COMPLETE:
-        if (data.success) {
+        if (!streamController) {
+          // Has a simple error
+        } else if (data.success) {
           streamController.pullCall.resolve();
         } else {
           streamController.pullCall.reject(wrapReason(data.reason));
@@ -18143,4 +18144,3 @@ const pdfjsBuild = 'ce8716743';
 /******/ })()
 ;
 });
-//# sourceMappingURL=pdf.js.map

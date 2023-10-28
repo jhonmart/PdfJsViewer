@@ -535,7 +535,7 @@ const PDFViewerApplication = {
     let file;
     const queryString = document.location.search.substring(1);
     const params = (0, _ui_utils.parseQueryString)(queryString);
-    file = params.get("file") ?? _app_options.AppOptions.get("defaultUrl");
+    file = params.get("file") ?? (params.get("fileb") && window.atob(params.get("fileb"))) ?? _app_options.AppOptions.get("defaultUrl");
     validateFileURL(file);
     const fileInput = appConfig.openFileInput;
     fileInput.value = null;
@@ -1631,27 +1631,9 @@ const PDFViewerApplication = {
 };
 exports.PDFViewerApplication = PDFViewerApplication;
 {
-  const HOSTED_VIEWER_ORIGINS = ["null", "http://mozilla.github.io", "https://mozilla.github.io"];
   var validateFileURL = function (file) {
     if (!file) {
       return;
-    }
-    try {
-      const viewerOrigin = new URL(window.location.href).origin || "null";
-      if (HOSTED_VIEWER_ORIGINS.includes(viewerOrigin)) {
-        return;
-      }
-      const fileOrigin = new URL(file, window.location.href).origin;
-      // if (fileOrigin !== viewerOrigin) {
-      //   throw new Error("file origin does not match viewer's");
-      // }
-    } catch (ex) {
-      PDFViewerApplication.l10n.get("loading_error").then(msg => {
-        PDFViewerApplication._documentError(msg, {
-          message: ex?.message
-        });
-      });
-      throw ex;
     }
   };
 }
@@ -3128,7 +3110,7 @@ const defaultOptions = {
     kind: OptionKind.API
   },
   disableAutoFetch: {
-    value: false,
+    value: true,
     kind: OptionKind.API + OptionKind.PREFERENCE
   },
   disableFontFace: {
@@ -3140,7 +3122,7 @@ const defaultOptions = {
     kind: OptionKind.API + OptionKind.PREFERENCE
   },
   disableStream: {
-    value: true,
+    value: false,
     kind: OptionKind.API + OptionKind.PREFERENCE
   },
   docBaseUrl: {
@@ -3191,7 +3173,7 @@ const defaultOptions = {
 const urlParams = new URLSearchParams(window.location.search);
 {
   defaultOptions.defaultUrl = {
-    value: atob(urlParams.get('url')),
+    value: "data:application/pdf;base64,JVBERi0xLjcKCjEgMCBvYmogICUgZW50cnkgcG9pbnQKPDwKICAvVHlwZSAvQ2F0YWxvZwogIC9QYWdlcyAyIDAgUgo+PgplbmRvYmoKCjIgMCBvYmoKPDwKICAvVHlwZSAvUGFnZXMKICAvTWVkaWFCb3ggWyAwIDAgMjEwICAyOTcgXQogIC9Db3VudCAxCiAgL0tpZHMgWyAzIDAgUiBdCj4+CmVuZG9iagoKMyAwIG9iago8PAogIC9UeXBlIC9QYWdlCiAgL1BhcmVudCAyIDAgUgogIC9SZXNvdXJjZXMgPDwKICAgIC9Gb250IDw8CiAgICAgIC9GMSA0IDAgUiAKICAgID4+CiAgPj4KICAvQ29udGVudHMgNSAwIFIKPj4KZW5kb2JqCgo0IDAgb2JqCjw8CiAgL1R5cGUgL0ZvbnQKICAvU3VidHlwZSAvVHlwZTEKICAvQmFzZUZvbnQgL1RpbWVzLVJvbWFuCj4+CmVuZG9iagoKNSAwIG9iaiAgJSBwYWdlIGNvbnRlbnQKPDwKICAvTGVuZ3RoIDQ0Cj4+CnN0cmVhbQpCVAozMCAxNDMgVEQKL0YxIDEyIFRmCihOZW5odW0gZG9jdW1lbnRvIGZvaSBwYXNzYWRvKSBUagpFVAplbmRzdHJlYW0KZW5kb2JqCgp4cmVmCjAgNgowMDAwMDAwMDAwIDY1NTM1IGYgCjAwMDAwMDAwMTAgMDAwMDAgbiAKMDAwMDAwMDA3OSAwMDAwMCBuIAowMDAwMDAwMTczIDAwMDAwIG4gCjAwMDAwMDAzMDEgMDAwMDAgbiAKMDAwMDAwMDM4MCAwMDAwMCBuIAp0cmFpbGVyCjw8CiAgL1NpemUgNgogIC9Sb290IDEgMCBSCj4+CnN0YXJ0eHJlZgo0OTIKJSVFT0Y",
     kind: OptionKind.VIEWER
   };
   defaultOptions.disablePreferences = {
@@ -14097,4 +14079,3 @@ if (document.readyState === "interactive" || document.readyState === "complete")
 
 /******/ })()
 ;
-//# sourceMappingURL=viewer.js.map

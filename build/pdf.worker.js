@@ -58070,7 +58070,9 @@ class MessageHandler {
         }
         break;
       case StreamKind.PULL_COMPLETE:
-        if (data.success) {
+        if (!streamController) {
+          // Has a simple error
+        } else if (data.success) {
           streamController.pullCall.resolve();
         } else {
           streamController.pullCall.reject(wrapReason(data.reason));
@@ -58350,4 +58352,3 @@ const pdfjsBuild = 'ce8716743';
 /******/ })()
 ;
 });
-//# sourceMappingURL=pdf.worker.js.map
