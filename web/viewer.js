@@ -3124,7 +3124,7 @@ const defaultOptions = {
     kind: OptionKind.API
   },
   cMapUrl: {
-    value: "../web/cmaps/",
+    value: "./web/cmaps/",
     kind: OptionKind.API
   },
   disableAutoFetch: {
@@ -3172,7 +3172,7 @@ const defaultOptions = {
     kind: OptionKind.API
   },
   standardFontDataUrl: {
-    value: "../web/standard_fonts/",
+    value: "./web/standard_fonts/",
     kind: OptionKind.API
   },
   verbosity: {
@@ -3184,7 +3184,7 @@ const defaultOptions = {
     kind: OptionKind.WORKER
   },
   workerSrc: {
-    value: "../build/pdf.worker.js",
+    value: "./build/pdf.worker.js",
     kind: OptionKind.WORKER
   }
 };
@@ -3203,7 +3203,7 @@ const urlParams = new URLSearchParams(window.location.search);
     kind: OptionKind.VIEWER
   };
   defaultOptions.sandboxBundleSrc = {
-    value: "../build/pdf.sandbox.js",
+    value: "./build/pdf.sandbox.js",
     kind: OptionKind.VIEWER
   };
 }
